@@ -10,7 +10,7 @@ customer_tour_packages = Table(
     Column("tour_package_id", Integer, ForeignKey("tour_packages.id"), primary_key=True)
 )
 class Customer(Base):
-    tablename__ = "customers" 
+    __tablename__ = "customers" 
     
     id = Column(Integer, primary_key=True)  
     _name = Column("name", String, nullable=False)  
@@ -128,3 +128,6 @@ class Customer(Base):
         for tour in self.tour_packages:
             details[tour.id] = (tour.name, tour.price, tour.departure_date)
         return details
+    
+    def __repr__(self):
+        return f"<Customer(id={self.id}, name={self.name}, email={self.email})>"
