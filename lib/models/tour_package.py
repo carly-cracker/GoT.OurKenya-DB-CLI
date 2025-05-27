@@ -28,7 +28,6 @@ class TourPackage(Base):
 
     @name.setter
     def name(self, value):
-        # Validate name: must be a string, at least 2 characters long
         if not value or not isinstance(value, str) or len(value.strip()) < 2:
             raise ValueError("Name must be >= 2 characters.")
         self._name = value.strip()
