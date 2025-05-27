@@ -29,7 +29,15 @@ def seed_data():
             (1, 1),
             (2, 2)
         ]
+        
         cursor.executemany("INSERT INTO customer_tour_assignments (customer_id, tour_package_id) VALUES (?, ?)", assignments)
+        
+        payments = [
+            (1, 1, 500.0, "2025-06-01", "completed"),
+            (2, 2, 300.0, "2025-06-05", "pending")
+        ]
+        cursor.executemany("INSERT INTO payments (customer_id, tour_package_id, amount, payment_date, status) VALUES (?, ?, ?, ?, ?)", payments)
+        
         cursor.execute("UPDATE tour_packages SET slots_remaining = slots_remaining - 1 WHERE id = ?", (1,))
         cursor.execute("UPDATE tour_packages SET slots_remaining = slots_remaining - 1 WHERE id = ?", (2,))
         
