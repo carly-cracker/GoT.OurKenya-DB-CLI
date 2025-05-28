@@ -1,7 +1,8 @@
 from lib.connection import init_db
 from helpers import (exit_program,list_customers, find_customer_by_name,find_customer_by_id,
     create_customer,update_customer_details, delete_customer_with_details, list_tour_packages, find_tour_package_by_name,
-    find_tour_package_by_id, create_tour_package, update_tour_package)
+    find_tour_package_by_id, create_tour_package, update_tour_package,delete_tour_package, list_payments,
+    find_payment_by_id, create_payment, delete_payment)
 
 def main_menu():
     while True:
@@ -74,8 +75,33 @@ def tour_package_menu():
             create_tour_package()
         elif choice == "5":
             update_tour_package()
+        elif choice == "6":
+            delete_tour_package()
         elif choice == "7":
             break
-        pass
+
+def payment_menu():
+    while True:
+        print("\nPayment Operations")
+        print("1. List Payments")
+        print("2. Find Payment by ID")
+        print("3. Create Payment")
+        print("4. Delete Payment")
+        print("5. Back")
+        choice = input("Select an option (1-5): ")
+
+        if choice == "1":
+            list_payments()
+        elif choice == "2":
+            find_payment_by_id()
+        elif choice == "3":
+            create_payment()
+        elif choice == "4":
+            delete_payment()
+        elif choice == "5":
+            break
+        else:
+            print("Invalid option. Please try again.")
+
 if __name__ == "__main__":
     main_menu()

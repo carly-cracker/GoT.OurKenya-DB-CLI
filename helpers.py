@@ -118,5 +118,50 @@ def update_tour_package():
             tour_package.slots_remaining = slots_remaining
             session.add(tour_package)
             session.commit()
+            print (f"Tour package {id_} successfully updated")
         except Exception as e:
             print("Error updating tour package: ", e)
+def delete_tour_package():
+    id_ = input("Enter tour package's ID that you want to delete: " )
+    if tour_package := TourPackage.find_by_id(id_):
+        tour_package.delete(id_)
+        print(f"tour package {id_} removed from database")
+    else :
+        print(f"tour package {id_} not found in db")
+
+def list_payments():
+    payments = Payment.get_all()
+    for payment in payments:
+        print(payment)
+def find_payment_by_id():
+    id_ = input("Enter the payment's id: ")
+    payment = Payment.find_by_id(id_)
+    print(payment) if payment else print(f'Payment {id_} not found')
+def create_payment():
+    customer_id = int(input("Enter the customer's id: "))
+    tour_package_id = int(input("Enter the tour package's id: "))
+    amount = float(input("Enter the payment amount: "))
+    payment_date = input("Enter the payment date (YYYY-MM-DD): ")
+    status = input("Enter the payment status (pending/completed/failed): ")
+    session = Session()
+    
+    try:
+        payment = Payment(
+            customer_id = customer_id,
+            tour_package_id=tour_package_id,
+            amount=amount,
+            payment_date=payment_date,
+            status=status
+        )
+        session.add(payment)
+        session.commit()
+        print(f"Payment successfully created: {payment}")
+    except Exception as e:
+        print("Error creating payment:", e)
+def delete_payment():
+    id_ = input("Enter the payment's id: ")
+    if payment := Payment.find_by_id(id_):
+        payment.delete(id_)
+        print(f'Payment {id_} deleted')
+    else:
+        print(f'Payment {id_} not found')
