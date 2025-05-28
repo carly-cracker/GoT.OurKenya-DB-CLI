@@ -1,7 +1,7 @@
 SCHEMA_SQL = """
-DROP TABLE IF EXISTS customer_tour_assignments;
 DROP TABLE IF EXISTS customer_tour_packages;
 DROP TABLE IF EXISTS tour_packages;
+DROP TABLE IF EXISTS payments;
 DROP TABLE IF EXISTS customers;
 
 
@@ -28,13 +28,6 @@ CREATE TABLE customer_tour_packages (
     FOREIGN KEY (tour_package_id) REFERENCES tour_packages(id) ON DELETE CASCADE
 );
 
-CREATE TABLE customer_tour_assignments (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    customer_id INTEGER NOT NULL,
-    tour_package_id INTEGER NOT NULL,
-    FOREIGN KEY (customer_id) REFERENCES customers(id) ON DELETE CASCADE,
-    FOREIGN KEY (tour_package_id) REFERENCES tour_packages(id) ON DELETE CASCADE
-);
 
 CREATE TABLE payments (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -46,4 +39,5 @@ CREATE TABLE payments (
     FOREIGN KEY (customer_id) REFERENCES customers(id) ON DELETE CASCADE,
     FOREIGN KEY (tour_package_id) REFERENCES tour_packages(id) ON DELETE CASCADE,
     FOREIGN KEY (customer_id, tour_package_id) REFERENCES customer_tour_packages(customer_id, tour_package_id) ON DELETE CASCADE
+);
 """

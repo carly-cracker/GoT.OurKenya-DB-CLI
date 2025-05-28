@@ -14,6 +14,7 @@ class TourPackage(Base):
     _slots_remaining = Column("slots_remaining", Integer, nullable=False)
 
     customers = relationship("Customer", secondary=customer_tour_packages, back_populates="tour_packages")
+    payments = relationship("Payment", back_populates="tour_package")
     assignments = relationship("CustomerTourAssignment", back_populates="tour_package", cascade="all, delete-orphan")
 
     def __init__(self, name, price, departure_date, slots_remaining):

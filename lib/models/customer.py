@@ -18,6 +18,7 @@ class Customer(Base):
     _tel_no = Column("tel_no", String, nullable=False, unique=True)  
 
     tour_packages = relationship("TourPackage", secondary=customer_tour_packages, back_populates="customers")
+    payments = relationship("Payment", back_populates="customer")
 
     def __init__(self, name, email, tel_no):
         self.name = name
