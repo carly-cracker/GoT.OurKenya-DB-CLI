@@ -60,8 +60,14 @@ class Customer(Base):
         try:
             customer = cls(name, email, tel_no)
             session.add(customer)  
-            session.commit()  
-            return customer
+            session.commit() 
+            customer_id = customer.id 
+            return {
+                "id": customer_id,
+                "name": customer.name,
+                "email": customer.email,
+                "tel_no": customer.tel_no
+        }
         except Exception as e:
             session.rollback()  
             raise e

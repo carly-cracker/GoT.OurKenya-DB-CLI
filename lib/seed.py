@@ -25,13 +25,6 @@ def seed_data():
         ]
         cursor.executemany("INSERT INTO customer_tour_packages (customer_id, tour_package_id) VALUES (?, ?)", assignments)
 
-        assignments = [
-            (1, 1),
-            (2, 2)
-        ]
-        
-        cursor.executemany("INSERT INTO customer_tour_assignments (customer_id, tour_package_id) VALUES (?, ?)", assignments)
-        
         payments = [
             (1, 1, 500.0, "2025-06-01", "completed"),
             (2, 2, 300.0, "2025-06-05", "pending")
