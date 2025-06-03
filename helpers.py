@@ -210,6 +210,35 @@ def create_payment():
         print(f"Payment successfully created: {payment}")
     except Exception as e:
         print("Error creating payment:", e)
+
+def update_payment():
+    id_ = input("Enter the payment's id to update: ")
+    session = Session()
+    try:
+        payment = session.get(Payment, id_)
+        if not payment:
+            print(f"Payment with ID {id_} not found.")
+            return
+        print(f"Current details: Amount={payment.amount}, Date={payment.payment_date}, Status={payment.status}")
+        amount = input(f"Enter new amount (leave blank to keep {payment.amount}): ")
+        payment_date = input(f"Enter new payment date (YYYY-MM-DD, leave blank to keep {payment.payment_date}): ")
+        status = input(f"Enter new status (leave blank to keep {payment.status}): ")
+
+        if amount.strip():
+            payment.amount = float(amount)
+        if payment_date.strip():
+            payment.payment_date = payment_date
+        if status.strip():
+            payment.status = status
+
+        session.add(payment)
+        session.commit()
+        print(f"Payment {id_} successfully updated.")
+    except Exception as e:
+        print(f"Error updating payment: {e}")
+        session.rollback()
+    finally:
+        session.close()
 def delete_payment():
     id_ = input("Enter the payment's id: ")
     if payment := Payment.find_by_id(id_):
@@ -217,3 +246,32 @@ def delete_payment():
         print(f'Payment {id_} deleted')
     else:
         print(f'Payment {id_} not found')
+
+def enroll_customer_to_tour_package():
+    customer_id = input("Enter the customer ID: ")
+    tour_package_id = input("Enter the tour package ID: ")
+    session = Session()
+    try:
+        customer = session.get(Customer, customer_id)
+        if not customer:
+            print(f"Customer with ID {customer_id} not found.")
+            return
+        tour_package = session.get(TourPackage, tour_package_id)
+        if not tour_package:
+            print(f"Tour package with ID {tour_package_id} not found.")
+            return
+        if tour_package.slots_remaining <= 0:
+            print(f"No slots remaining for tour package {tour_package_id}.")
+            return
+        if tour_package in customer.tour_packages:
+            print(f"Customer is already enrolled in this tour package.")
+            return
+        customer.tour_packages.append(tour_package)
+        tour_package.slots_remaining -= 1
+        session.commit()
+        print(f"Customer {customer.name} successfully enrolled to tour package {tour_package.name}.")
+    except Exception as e:
+        print(f"Error enrolling customer: {e}")
+        session.rollback()
+    finally:
+        session.close()
