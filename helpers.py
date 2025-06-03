@@ -63,6 +63,20 @@ def update_customer_details():
     else:
         print(f"customer {id_} not found")
 
+def list_tour_packages_by_customer():
+    id_ = input("Enter the customer's ID: ")
+    try:
+        customer = Customer.find_by_id(id_)
+        tour_details = customer.get_tour_package_details()
+        if not tour_details:
+            print(f"Customer {customer.name} has no tour packages.")
+        else:
+            print(f"Tour packages for {customer.name}:")
+            for tid, (name, price, departure_date) in tour_details.items():
+                print(f"ID: {tid}, Name: {name}, Price: {price}, Departure: {departure_date}")
+    except Exception as e:
+        print(f"Error: {e}")
+
 def delete_customer_with_details():
     id_ = input("Enter customer's ID: ")
     if customer := Customer.find_by_id(id_):
@@ -128,6 +142,44 @@ def delete_tour_package():
         print(f"tour package {id_} removed from database")
     else :
         print(f"tour package {id_} not found in db")
+
+def list_tour_packages_by_customer():
+    id_ = input("Enter the customer's ID: ")
+    session = Session()
+    try:
+        customer = session.get(Customer, id_)
+        if not customer:
+            print(f"Customer with ID {id_} not found.")
+            return
+        if not customer.tour_packages:
+            print(f"Customer {customer.name} has no tour packages.")
+        else:
+            print(f"Tour packages for {customer.name}:")
+            for tour in customer.tour_packages:
+                print(f"ID: {tour.id}, Name: {tour.name}, Price: {tour.price}, Departure: {tour.departure_date}")
+    except Exception as e:
+        print(f"Error: {e}")
+    finally:
+        session.close()
+
+def list_customers_by_tour_package():
+    id_ = input("Enter the tour package ID: ")
+    session = Session()
+    try:
+        tour_package = session.get(TourPackage, id_)
+        if not tour_package:
+            print(f"Tour package with ID {id_} not found.")
+            return
+        if not tour_package.customers:
+            print(f"No customers enrolled for tour package '{tour_package.name}'.")
+        else:
+            print(f"Customers enrolled for '{tour_package.name}':")
+            for customer in tour_package.customers:
+                print(f"ID: {customer.id}, Name: {customer.name}, Email: {customer.email}, Tel: {customer.tel_no}")
+    except Exception as e:
+        print(f"Error: {e}")
+    finally:
+        session.close()
 
 def list_payments():
     payments = Payment.get_all()

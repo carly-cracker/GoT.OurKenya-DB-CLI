@@ -1,7 +1,7 @@
 from lib.connection import init_db
 from helpers import (exit_program,list_customers, find_customer_by_name,find_customer_by_id,
-    create_customer,update_customer_details, delete_customer_with_details, list_tour_packages, find_tour_package_by_name,
-    find_tour_package_by_id, create_tour_package, update_tour_package,delete_tour_package, list_payments,
+    create_customer,update_customer_details, delete_customer_with_details, list_tour_packages_by_customer,list_tour_packages, find_tour_package_by_name,
+    find_tour_package_by_id, create_tour_package, update_tour_package,delete_tour_package, list_customers_by_tour_package,list_payments,
     find_payment_by_id, create_payment, delete_payment)
 
 def main_menu():
@@ -35,7 +35,8 @@ def customer_menu():
         print("4. Create Customer")
         print("5. Update Customer details")
         print("6. Delete Customer with details")
-        print("7. Back")
+        print("7. List all tour packages by customer")
+        print("8. Back")
         choice = input("select an option (1-7):")
 
         if choice == "1":
@@ -51,6 +52,8 @@ def customer_menu():
         elif choice == "6":
             delete_customer_with_details()
         elif choice == "7":
+            list_tour_packages_by_customer()
+        elif choice == "8":
             break
 
 def tour_package_menu():
@@ -62,7 +65,8 @@ def tour_package_menu():
         print("4. Create Tour Package")
         print("5. Update Tour Package")
         print("6. Delete Tour Package")
-        print("7. Back")
+        print("7. List all customers for a tour package")
+        print("8. Back")
         choice = input("Select an option (1-7): ")
 
         if choice == "1":
@@ -78,6 +82,8 @@ def tour_package_menu():
         elif choice == "6":
             delete_tour_package()
         elif choice == "7":
+            list_customers_by_tour_package()
+        elif choice == "8":
             break
 
 def payment_menu():
